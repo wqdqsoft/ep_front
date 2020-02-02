@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<config>  
+  <system-config
+   debug="true"
+   channel="gprs"
+   read_buffer="2048"
+   queue_buffer="2048"
+   downloadBuffer="1024" 
+   resend_count="8" 
+   overtime="6000" 
+   send_delay="3000"
+   next_delay="100"  
+   file_url="D:/apache-tomcat-7.0.73/webapps/ROOT/ep_photo/" 
+   web_url="http://192.168.16.77/ep_photo/">  
+  </system-config>
+  
+    
+  <datasource-config
+    db_type="jndi"
+    jndi_name="jdbc/cm"
+    url="jdbc:oracle:thin:@192.168.0.68:1521:cmdzgps"
+    driver="oracle.jdbc.driver.OracleDriver"
+    user="gd"
+    password="gd">
+  </datasource-config>
+  <!-- 60.190.128.190 -->
+  <module-config>
+    <module name="Front" id="1" class="com.powerhigh.gdfas.module.front.FrontModule">
+  <parameter name="ip" value="192.168.16.108"/>  
+<!--   <parameter name="ip" value="180.153.41.136"/>  -->
+<!--      <parameter name="ip" value="192.168.16.204"/>-->
+<!--    <parameter name="ip" value="180.153.41.136"/>  -->
+<!--     <parameter name="ip" value="180.153.58.245"/>   -->
+      <parameter name="port" value="18001"/>
+      <parameter name="account" value="010000000000"/>
+      <parameter name="pingInterval" value="60"/>
+      <parameter name="workerThreadNum" value="1000"/>
+    </module>
+    
+<!--    <module name="Ascendsms" id="9" class="com.powerhigh.gdfas.module.ascendsms.AscendsmsModule">-->
+<!--      <parameter name="workerThreadNum" value="10"/>-->
+<!--      <parameter name="COM" value="1"/>-->
+<!--      <parameter name="btl" value="9600"/>-->
+<!--      <parameter name="sjw" value="8"/>-->
+<!--      <parameter name="tzw" value="1"/>-->
+<!--      <parameter name="jyw" value="0"/>-->
+<!--    </module>-->
+    
+    <!-- 
+    <module name="JMSSendFront" id="2" class="com.powerhigh.gdfas.module.jms.JmsModule">
+      <parameter name="workerThreadNum" value="10"/>
+      <parameter name="contextFactoryName" value="com.evermind.server.rmi.RMIInitialContextFactory"/>
+      <parameter name="userName" value="admin"/>
+      <parameter name="userPassword" value="admin"/>
+      <parameter name="url" value="ormi://localhost:23791"/>
+      <parameter name="queueConnectionFactoryName" value="jms/gdQueueFactory"/>
+      <parameter name="queueName" value="jms/frontSendQueue"/>
+    </module>
+    
+    <module name="JMSReceiveFront" id="3" class="com.powerhigh.gdfas.module.jms.JmsModule">
+      <parameter name="workerThreadNum" value="10"/>
+      <parameter name="contextFactoryName" value="com.evermind.server.rmi.RMIInitialContextFactory"/>
+      <parameter name="userName" value="admin"/>
+      <parameter name="userPassword" value="admin"/>
+      <parameter name="url" value="ormi://localhost:23791"/>
+      <parameter name="queueConnectionFactoryName" value="jms/gdQueueFactory"/>
+      <parameter name="queueName" value="jms/frontReceiveQueue"/>
+    </module>
+    
+    
+    <module name="Gprs" id="4" class="com.powerhigh.gdfas.module.gprs.GprsModule">
+      <parameter name="serverPort" value="12000"/>
+      <parameter name="workerThreadNum" value="10"/>
+    </module>
+    
+    <module name="JMSendGprs" id="5" class="com.powerhigh.gdfas.module.jms.JmsModule">
+      <parameter name="workerThreadNum" value="10"/>
+      <parameter name="contextFactoryName" value="com.evermind.server.rmi.RMIInitialContextFactory"/>
+      <parameter name="userName" value="admin"/>
+      <parameter name="userPassword" value="admin"/>
+      <parameter name="url" value="ormi://localhost:23791"/>
+      <parameter name="queueConnectionFactoryName" value="jms/gdQueueFactory"/>
+      <parameter name="queueName" value="jms/gprsSendQueue"/>
+    </module>
+    
+    <module name="JMSReceiveGprs" id="6" class="com.powerhigh.gdfas.module.jms.JmsModule">
+      <parameter name="workerThreadNum" value="10"/>
+      <parameter name="contextFactoryName" value="com.evermind.server.rmi.RMIInitialContextFactory"/>
+      <parameter name="userName" value="admin"/>
+      <parameter name="userPassword" value="admin"/>
+      <parameter name="url" value="ormi://localhost:23791"/>
+      <parameter name="queueConnectionFactoryName" value="jms/gdQueueFactory"/>
+      <parameter name="queueName" value="jms/gprsReceiveQueue"/>
+    </module>
+    
+    <module name="Cmsms" id="7" class="com.powerhigh.gdfas.module.cmsms.CmsmsModule">
+      <parameter name="workerThreadNum" value="10"/>
+      <parameter name="COM" value="1"/>
+      <parameter name="btl" value="9600"/>
+      <parameter name="sjw" value="8"/>
+      <parameter name="tzw" value="1"/>
+      <parameter name="jyw" value="0"/>
+    </module>
+    
+    <module name="Serial" id="8" class="com.powerhigh.gdfas.module.serial.SerialModule">
+      <parameter name="workerThreadNum" value="10"/>
+      <parameter name="COM" value="3"/>
+      <parameter name="btl" value="9600"/>
+      <parameter name="sjw" value="8"/>
+      <parameter name="tzw" value="1"/>
+      <parameter name="jyw" value="2"/>
+    </module>
+    -->
+  </module-config>
+  
+</config>  
+

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> 
+
+<beans> 
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" 	value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" 			value="jdbc:oracle:thin:@127.0.0.1:1521:orcl"/>
+		<property name="username" 		value="p_gd"/>
+		<property name="password" 		value="p_gd"/>
+		<property name="maxIdle"		value="100"/>
+		<property name="minIdle"		value="2"/>
+		<property name="maxActive"		value="10"/>
+		<property name="initialSize"		value="2"/>
+		
+    </bean>
+    
+    <bean id="context" class="com.powerhigh.gdfas.util.CMContext"> 
+    	<property name="dataSource"		ref="dataSource" />
+    </bean>
+    
+    <bean id="config" class="com.powerhigh.gdfas.module.ConfigManager"> 
+    </bean>
+    
+    <bean id="receiveDispose" class="com.powerhigh.gdfas.parse.receiveDispose"> 
+    	<property name="dataSource"		ref="dataSource" />
+    </bean>
+    
+    <bean id="dispatch" class="com.powerhigh.gdfas.module.Dispatch"> 
+    	<property name="receiveDispose"		ref="receiveDispose" />
+    </bean>
+    
+    <!-- transaction -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <!-- remote service -->
+    <bean id="_myService" class="com.powerhigh.gdfas.rmi.parseImp"> 
+    	<property name="dataSource"		ref="dataSource" />
+    	<property name="dispatch"		ref="dispatch" />
+    </bean> 
+    
+    <bean id="myServiceProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager" />
+	<property name="target" ref="_myService" />
+	<property name="transactionAttributes">
+		<props>
+			<prop key="*">PROPAGATION_REQUIRED</prop>
+		</props>
+	</property>
+    </bean>
+    
+    <bean id="myService" class="org.springframework.remoting.rmi.RmiServiceExporter"> 
+       <property name="registryPort" value="13791"/>
+       <property name="serviceName" value="myService"/> 
+       <property name="service" ref="myServiceProxy"/> 
+       <property name="serviceInterface" value="com.powerhigh.gdfas.rmi.parse"/> 
+    </bean> 
+    
+        
+    
+    
+    <bean id="dispatchProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager" />
+	<property name="target" ref="dispatch" />
+	<property name="transactionAttributes">
+		<props>
+			<prop key="up*">PROPAGATION_REQUIRED</prop>
+		</props>
+	</property>
+    </bean>
+    
+    
+</beans> 

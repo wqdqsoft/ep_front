@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> 
+
+<beans default-autowire="byName"> 
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" 	value="oracle.jdbc.driver.OracleDriver"/>
+   	<property name="url" 			value="jdbc:oracle:thin:@180.153.41.136:1521:wqdq"/>   
+<!--   	<property name="url" 			value="jdbc:oracle:thin:@180.153.58.245:1521:wqdq"/>    -->
+		<property name="username" 		value="wqep"/>
+		<property name="password" 		value="vqor314400"/>
+        <!-- 		最大空闲数，设为0表示无限制 -->
+		<property name="maxIdle"		value="20"/>
+		<!-- 		最小空闲数，设为0表示无限制 -->
+		<property name="minIdle"		value="0"/>
+		<!-- 		连接池的最大数据库连接数。设为0表示无限制 -->
+		<property name="maxActive"		value="100"/>
+		<!-- 		初始连接数 -->
+		<property name="initialSize"	value="10"/>
+		
+		<!-- 最大等待秒数,单位为毫秒,Connection用尽多久回收，超过时间会报出错误信息-->
+		<property name="maxWait" value="120000"/>
+		
+		<!-- 是否记录中断事件,默认为false-->
+		<property name="logAbandoned" value="false"/>
+		
+		<!-- 是否自动回收超时连接,默认为false-->
+		<property name="removeAbandoned" value="true"/>
+		
+		<!-- 连接回收超时时间，秒为单位-->
+		<property name="removeAbandonedTimeout" value="120"/>
+    </bean>
+    
+    <!-- transaction begin-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+    </bean>     
+        
+    <bean id="nameMatch"
+		class="org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource">
+		<property name="properties">
+			<props>
+				<!-- prop key="get*">PROPAGATION_REQUIRED,readOnly</prop -->
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource" ref="nameMatch" />
+	</bean>
+
+	<bean id="autoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<idref local="transactionInterceptor" />
+			</list>
+		</property>
+		<property name="beanNames">
+			<!-- add here... -->
+			<list>
+			<value> *Service</value>
+			</list>
+		</property>
+	</bean>
+	<!-- transaction end-->
+	    
+    
+    <!-- business service -->
+    <bean id="contextService" class="com.powerhigh.gdfas.util.CMContext"> 
+    </bean>
+    
+    <bean id="configService" class="com.powerhigh.gdfas.module.ConfigManager"> 
+    </bean>
+    
+    <bean id="receiveService" class="com.powerhigh.gdfas.parse.receiveDispose"> 
+    </bean>
+    
+    <bean id="dispatchService" class="com.powerhigh.gdfas.module.Dispatch"> 
+    </bean>
+        
+    <!-- remote service -->
+    <bean id="rmiService" class="com.powerhigh.gdfas.rmi.parseImp"> 
+    </bean> 
+    
+     <bean id="readFromFrontService" class="com.powerhigh.gdfas.module.front.readFromFront">  
+     </bean>
+       
+<!--     <bean id="myService" class="org.springframework.remoting.rmi.RmiServiceExporter">  -->
+<!--        <property name="registryPort" value="13798"/> -->
+<!--        <property name="servicePort" value="13999"/> -->
+<!--        <property name="serviceName" value="epfrontService"/>  -->
+<!--        <property name="service" ref="rmiService"/>  -->
+<!--        <property name="serviceInterface" value="com.powerhigh.gdfas.rmi.parse"/>  -->
+<!--     </bean>  -->
+    
+    <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+        <property name="port" value="13798"/>
+    </bean>
+    <bean id = "myService" class = "org.springframework.remoting.rmi.RmiServiceExporter" >
+		<property name = "serviceName" value = "epfrontService" />
+		<property name = "service" ref = "rmiService" />
+		<property name = "serviceInterface" value = "com.powerhigh.gdfas.rmi.parse" />
+		<!-- <property name="registryPort" value="1099"/> -->
+<!-- 		<property name="registryHost"  value="192.168.39.11" /> -->
+		<property name="registry" ref="registry"/>
+	</bean >
+    
+    <bean id="oracleLobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler" singleton="false"  lazy-init="true">
+        <property name="nativeJdbcExtractor" ref="nativeJdbcExtractor"/>
+    </bean>
+    <bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" lazy-init="true"/>
+ 
+    
+</beans> 

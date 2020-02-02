@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="GBK" standalone="no"?>
+<jardesc>
+    <jar path="E:/Project/五水共治/EPFront.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/ep_front/EPFront.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" mainClassHandleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas{Run.java[Run" manifestLocation="/ZjGprsNew/META-INF/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="true">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas"/>
+        <file path="/ep_front/src/log4j.properties"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.module.front"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.module.jms"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.module.serial"/>
+        <file path="/ep_front/src/config.xml"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.util"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.rmi"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.test"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.module.cmsms"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.parse"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.module"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.dbparse.dlt645"/>
+        <javaElement handleIdentifier="=ep_front/src&lt;com.powerhigh.gdfas.module.gprs"/>
+    </selectedElements>
+</jardesc>
